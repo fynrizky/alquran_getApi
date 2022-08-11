@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+    <script>
+        
+        getApi();
+        getApi();
+        function getApi (){
+            
+            fetch('http://api.alquran.cloud/v1/quran/quran-uthmani')
+            .then((response) => response.json())
+            .then((data) => {
+                const dataApi = data.data.surahs;
+                // console.log(dataApi)
+                
+                let html = '';
+                
+                dataApi.forEach((data, index) => {
+                    
+                        const htmlSegmentTitle =` 
+                        <h2 id="title" style="text-align:center; cursor: pointer;">${data.name} (${data.englishName})</h2>
+                        `;
+                        html+=htmlSegmentTitle;
+                        
+                    
+                    
+                    data.ayahs.forEach((dataAyahs, index)=>{
+                        
+                        const htmlSegmentP =`
+                                <p style="text-align:center; font-size: 20px;">
+                                    ${dataAyahs.text} <mark style="border-radius:50%;"><sup>${dataAyahs.numberInSurah}</sup></mark>
+                                </p>
+                        `;
+                        html+=htmlSegmentP;
+                        
+
+                    });
+                });  
+
+                const container = document.querySelector("#container");
+                container.innerHTML = html;
+            
+            }).catch((error)=>{
+            // console.log(error);
+            return error;
+            });
+
+            
+        }
+    </script>
+</head>
+<body>
+    <div id="container">
+        
+    </div>
+</body>
+</html>
